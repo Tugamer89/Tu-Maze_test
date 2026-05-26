@@ -70,13 +70,13 @@ int main() {
 
     const std::vector<glm::vec3> cubeVertices = {
         {-1.f, -1.f, -1.f}, {1.f, -1.f, -1.f}, {1.f, 1.f, -1.f}, {-1.f, 1.f, -1.f},  // Front Face
-        {-1.f, -1.f, 1.f},  {1.f, -1.f, 1.f},  {1.f, 1.f, 1.f},  {-1.f, 1.f, 1.f},    // Back Face
+        {-1.f, -1.f, 1.f},  {1.f, -1.f, 1.f},  {1.f, 1.f, 1.f},  {-1.f, 1.f, 1.f},   // Back Face
     };
 
     const std::vector<std::pair<int, int>> cubeEdges = {
         {0, 1}, {1, 2}, {2, 3}, {3, 0},  // Front face edges
         {4, 5}, {5, 6}, {6, 7}, {7, 4},  // Back face edges
-        {0, 4}, {1, 5}, {2, 6}, {3, 7},   // Connecting depth edges
+        {0, 4}, {1, 5}, {2, 6}, {3, 7},  // Connecting depth edges
     };
 
     sf::Clock clock;
