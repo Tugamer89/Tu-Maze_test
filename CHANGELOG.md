@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/Tugamer89/Tu-Maze_test/compare/v0.2.1...v0.2.2) (2026-05-26)
+
+
+### Bug Fixes
+
+* correct cmake template filename in export.sh ([c1e9301](https://github.com/Tugamer89/Tu-Maze_test/commit/c1e93018b31d4c0a38866172467783a602665238))
+
 ## [0.2.1](https://github.com/Tugamer89/Tu-Maze_test/compare/v0.2.0...v0.2.1) (2026-05-26)
 
 
