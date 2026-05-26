@@ -113,13 +113,20 @@ int main() {
             sf::Vector2f p1 = screenVertices[first];
             sf::Vector2f p2 = screenVertices[second];
 
-            sf::Vector2f midPoint = (p1 + p2) / 2.0f;
+            sf::Vector2f third1 = p1 + (p2 - p1) / 3.0f;
+            sf::Vector2f third2 = p1 + (p2 - p1) * 2.0f / 3.0f;
 
-            std::array<sf::Vertex, 4> lines = {
+            std::array<sf::Vertex, 6> lines = {
+                // First segment: 0 - 1/3 (Gradient from Cyan to Magenta)
                 sf::Vertex{p1, sf::Color::Cyan},
-                sf::Vertex{midPoint, sf::Color::Magenta},
+                sf::Vertex{third1, sf::Color::Magenta},
 
-                sf::Vertex{midPoint, sf::Color::Magenta},
+                // Second segment: 1/3 - 2/3 (Full Magenta)
+                sf::Vertex{third1, sf::Color::Magenta},
+                sf::Vertex{third2, sf::Color::Magenta},
+
+                // Third segment: 2/3 - 1 (Gradient from Magenta to Cyan)
+                sf::Vertex{third2, sf::Color::Magenta},
                 sf::Vertex{p2, sf::Color::Cyan},
             };
 
