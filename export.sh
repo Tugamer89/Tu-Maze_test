@@ -142,8 +142,11 @@ export_command() {
         git ls-files | while read -r file; do
             # Filter out git configuration, templates, scripts and pipeline definitions
             if [[ $(basename "$file") == .git* ]] || \
+               [[ "$file" == .github* ]] || \
+               [[ "$file" == .clang-format ]] || \
+               [[ "$file" == release-please-config.json ]] || \
+               [[ "$file" == LICENSE ]] || \
                [[ $(basename "$file") == export.sh ]] || \
-               [[ $(basename "$file") == stages.sh ]] || \
                [[ $(basename "$file") == CMakeLists.stages.template ]]; then
                 continue
             fi
