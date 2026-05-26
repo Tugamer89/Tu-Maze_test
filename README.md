@@ -42,7 +42,7 @@ Upon successful compilation, the compiled standalone binary along with its asset
 #### Run the Application
 
 ```bash
-./build/bin/tu-maze
+./build/bin/cube
 ```
 
 ---
@@ -84,10 +84,15 @@ Once compiled via the centralized multi-stage workspace, the independent executa
 
 ```bash
 # To run Stage 1
-./FCG_Stages/build/bin/Stage_01/tu-maze
+./FCG_Stages/build/bin/Stage_01/tu-maze  # I apologize for the name mismatch, it was a bad version of CMakeLists.txt
 
 # To run Stage 2
-./FCG_Stages/build/bin/Stage_02/tu-maze
+./FCG_Stages/build/bin/Stage_02/cube
+
+# To run Stage 3 (when it will be available)
+./FCG_Stages/build/bin/Stage_03/cube
+
+# And so on...
 ```
 
 ---
