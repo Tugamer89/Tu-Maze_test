@@ -96,7 +96,7 @@ Once compiled via the centralized multi-stage workspace, the independent executa
 
 In questa sezione viene documentata manualmente l'evoluzione passo dopo passo del progetto **Tu-Maze**, mappando ogni release milestone (*tappa minor*) con le relative modifiche strutturali, grafiche e algoritmiche introdotte.
 
-### Tappa v0.1.0 (Stage 01) - Fondamenta del Progetto e Proiezione Spaziale 3D
+### Tappa v0.1.x (Stage 01) - Fondamenta del Progetto e Proiezione Spaziale 3D
 
 **Descrizione dell'avanzamento**:
 
@@ -117,3 +117,22 @@ Rendering del cubo colorato:
 
 Animazione del cubo:
 <video alt="Stage 01 - Cube Rotation Demo" src="resources/screenshots/stage01-rotation.mp4" controls autoplay loop muted width="100%"></video>
+
+### Tappa v0.2.x (Stage 02) - Perfezionamento Estetico e Strutturazione del Progetto
+
+**Descrizione dell'avanzamento**:
+
+In questa tappa il lavoro si è concentrato sul raffinamento visivo del rendering e sulla riorganizzazione strutturale della repository per facilitarne la documentazione e la distribuzione. È stata perfezionata la resa cromatica degli spigoli del cubo ed è stata completata la configurazione dei file di supporto, dei dettagli di packaging e degli script di esportazione del binario.
+
+**Principali modifiche introdotte**:
+
+- **Rendering degli Spigoli a Tre Segmenti:** Ottimizzazione del disegno dei lati del cubo tramite la suddivisione di ogni spigolo in tre sezioni distinte (0-1/3, 1/3-2/3, 2/3-1). I tratti iniziali e finali presentano una sfumatura progressiva tra ciano e magenta, mentre la parte centrale (da 1/3 a 2/3) mantiene un colore magenta solido e uniforme.
+- **Ridenominazione dell'Eseguibile e Packaging:** Modifica del nome del file eseguibile in 'cube' e contestuale aggiornamento di tutti i dettagli di configurazione e pacchettizzazione del progetto.
+- **Potenziamento del README:** Ampliamento del file di panoramica principale con l'aggiunta di istruzioni dettagliate per l'installazione e una presentazione chiara del progetto.
+- **Automazione dello Script di Export:** Aggiornamento della pipeline di esportazione per includere la copia automatica degli asset richiesti e della documentazione di supporto all'interno della build finale.
+- **Integrazione di Screenshot e Demo Video:** Inclusione di nuovi elementi multimediali esplicativi direttamente nella repository, tra cui catture schermata aggiornate e un video dimostrativo del cubo in funzione.
+
+**Screenshots**:
+
+Rendering del cubo con i nuovi colori:
+![Stage 02 - Cube Preview](resources/screenshots/stage02-preview.png)
