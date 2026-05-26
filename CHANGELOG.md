@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.3](https://github.com/Tugamer89/Tu-Maze_test/compare/v0.2.2...v0.2.3) (2026-05-26)
+
+
+### Bug Fixes
+
+* update application and stage executable names in README and export script ([69bf9c5](https://github.com/Tugamer89/Tu-Maze_test/commit/69bf9c5a7a25f2deeebcae74252edfe5dd2b4fe2))
+* update export command to exclude additional files from processing ([fbdcaef](https://github.com/Tugamer89/Tu-Maze_test/commit/fbdcaefe4d842741391194566fa8c365db518414))
+
 ## [0.2.2](https://github.com/Tugamer89/Tu-Maze_test/compare/v0.2.1...v0.2.2) (2026-05-26)
 
 
