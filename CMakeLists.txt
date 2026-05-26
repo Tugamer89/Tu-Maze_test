@@ -56,10 +56,10 @@ FetchContent_MakeAvailable(SFML)
 file(GLOB_RECURSE SRC_FILES "src/*.cpp" "src/*.cc" "src/*.hpp" "src/*.hh")
 
 if(SRC_FILES)
-    add_executable(tu-maze ${SRC_FILES})
+    add_executable(cube ${SRC_FILES})
     
     # Link SFML 3.0 graphics modules and GLM
-    target_link_libraries(tu-maze 
+    target_link_libraries(cube 
         PRIVATE 
             sfml-graphics
             sfml-window
@@ -68,15 +68,15 @@ if(SRC_FILES)
     )
     
     # Include src/ directory as system target include path
-    target_include_directories(tu-maze PRIVATE src)
+    target_include_directories(cube PRIVATE src)
 
     # Automatically copy resources/ directory to the binary directory post-build
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/resources")
         add_custom_command(
-            TARGET tu-maze POST_BUILD
+            TARGET cube POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_directory
                 "${CMAKE_CURRENT_SOURCE_DIR}/resources"
-                "$<TARGET_FILE_DIR:tu-maze>/resources"
+                "$<TARGET_FILE_DIR:cube>/resources"
             COMMENT "Copying assets and resources to build directory..."
         )
     endif()
@@ -87,19 +87,19 @@ endif()
 # ============================================================================
 # INSTALLATION & PACKAGING (CPack)
 # ============================================================================
-# Install the resources directory into the package bin/ folder
+# Install the resources directory into the package . folder
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/resources")
-    install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/resources" DESTINATION bin)
+    install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/resources" DESTINATION .)
 endif()
 
-# Ensure the executable is also installed into the package bin/ folder
-if(TARGET tu-maze)
-    install(TARGETS tu-maze DESTINATION bin)
+# Ensure the executable is also installed into the package . folder
+if(TARGET cube)
+    install(TARGETS cube DESTINATION .)
 endif()
 
 # Configure CPack variables
 set(CPACK_GENERATOR "ZIP")
-set(CPACK_PACKAGE_NAME "fcg-labs")
+set(CPACK_PACKAGE_NAME "tu-maze_test")
 set(CPACK_PACKAGE_VERSION "0.1.1") # x-release-please-version
 
 include(CPack)

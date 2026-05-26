@@ -158,6 +158,23 @@ export_command() {
     print_info "Returning workspace to branch '$current_branch'..."
     git checkout "$current_branch" > /dev/null 2>&1
 
+    print_info "Copying documentation and assets to FCG_Stages root..."
+
+    # Copy the main README.md if exists
+    if [ -f README.md ]; then
+        cp README.md FCG_Stages/
+        print_info "  -> README.md copied successfully."
+    fi
+
+    # Copy screenshot folder recursively
+    if [ -d resources/screenshots ]; then
+        mkdir -p FCG_Stages/resources
+        cp -r resources/screenshots FCG_Stages/resources/
+        print_info "  -> Screenshots folder copied successfully."
+    else
+        print_warning "No 'resources/screenshots' folder found to copy."
+    fi
+
     # Generate the root wrapper CMakeLists.txt using the template
     generate_wrapper_cmake
 
