@@ -39,7 +39,7 @@ check_gitignore() {
 
 generate_wrapper_cmake() {
     local target_dir="FCG_Stages"
-    local cmake_template="CMakeLists.stages.template.txt"
+    local cmake_template="CMakeLists.stages.template"
     local cmake_file="$target_dir/CMakeLists.txt"
     
     if [ ! -f "$cmake_template" ]; then
