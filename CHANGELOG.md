@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/Tugamer89/Tu-Maze_test/compare/v0.2.0...v0.2.1) (2026-05-26)
+
+
+### Bug Fixes
+
+* correct formatting of cube vertices and edges in main.cpp ([546cd98](https://github.com/Tugamer89/Tu-Maze_test/commit/546cd9811580f95236edbaaf42257d3e16926144))
+
 ## [0.2.0](https://github.com/Tugamer89/Tu-Maze_test/compare/v0.1.1...v0.2.0) (2026-05-26)
 
 
