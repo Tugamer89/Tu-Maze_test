@@ -100,6 +100,6 @@ endif()
 # Configure CPack variables
 set(CPACK_GENERATOR "ZIP")
 set(CPACK_PACKAGE_NAME "fcg-labs")
-set(CPACK_PACKAGE_VERSION "0.1.0") # x-release-please-version
+set(CPACK_PACKAGE_VERSION "0.1.1") # x-release-please-version
 
 include(CPack)
