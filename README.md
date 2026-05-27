@@ -97,3 +97,26 @@ cd ../Stage_03
 
 # And so on...
 ```
+
+## User Interface Controls & Documentation
+
+### Stage 1 (v0.1.x)
+
+#### Keyboard Controls
+
+* **`Escape`**: Closes the application and shuts down the rendering loop immediately.
+
+#### Mouse Controls
+
+* **`Window Close Button (X)`**: Clicking the native OS window close button terminates the program safely.
+* *Note: No interactive in-window mouse controls are implemented in this stage.*
+
+## Credits & Asset Attributions
+
+### Project Inspiration & Algorithms
+
+* **3D Perspective Projection Logic**: Core perspective transformation framework (based on the x' = x/z formula) inspired and readapted from Tsoding's YouTube video [*"One Formula That Demystifies 3D Graphics"*](https://www.youtube.com/watch?v=qjWkNZ0SXfo).
+
+### Documentation & Support
+
+* **Documentation Assistance**: Structured, refined, and generated with the assistance of [Gemini](https://gemini.google.com/).
