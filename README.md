@@ -115,7 +115,7 @@ cd ../Stage_03
 
 ### Project Inspiration & Algorithms
 
-* **3D Perspective Projection Logic**: Core perspective transformation framework (based on the x' = x/z formula) inspired and readapted from Tsoding's YouTube video [*"One Formula That Demystifies 3D Graphics"*](https://www.youtube.com/watch?v=qjWkNZ0SXfo).
+* **3D Perspective Projection Logic**: Core perspective transformation framework (based on the $x' = \frac{x}{z}$ formula) inspired and readapted from Tsoding's YouTube video [*"One Formula That Demystifies 3D Graphics"*](https://www.youtube.com/watch?v=qjWkNZ0SXfo).
 
 ### Documentation & Support
 
