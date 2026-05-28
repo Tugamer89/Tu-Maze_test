@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.3.0](https://github.com/Tugamer89/Tu-Maze_test/compare/v0.2.3...v0.3.0) (2026-05-28)
+
+
+### Features
+
+* add core functionality for 3D rendering engine ([b504c5a](https://github.com/Tugamer89/Tu-Maze_test/commit/b504c5a8041010d2a5c9f5469b53e0386b5b5ed4))
+
+
+### Documentation
+
+* add basecode reference for Stage 3 in project inspiration section ([954c2df](https://github.com/Tugamer89/Tu-Maze_test/commit/954c2df765d98191d3cd7ca6b70308e0ac00f936))
+
 ## [0.2.3](https://github.com/Tugamer89/Tu-Maze_test/compare/v0.2.2...v0.2.3) (2026-05-26)
 
 

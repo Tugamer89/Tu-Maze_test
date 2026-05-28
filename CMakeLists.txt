@@ -143,6 +143,6 @@ endif()
 # Configure CPack variables
 set(CPACK_GENERATOR "ZIP")
 set(CPACK_PACKAGE_NAME "tu-maze_test")
-set(CPACK_PACKAGE_VERSION "0.2.3") # x-release-please-version
+set(CPACK_PACKAGE_VERSION "0.3.0") # x-release-please-version
 
 include(CPack)
