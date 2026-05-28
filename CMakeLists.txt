@@ -9,15 +9,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Warnings
-add_library(project_warnings INTERFACE)
-target_compile_options(project_warnings INTERFACE
-    $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
-        -Wall 
-        -funsigned-char
-        -Wno-error=narrowing
-    >
-    $<$<CXX_COMPILER_ID:MSVC>:/W4>
-)
+if(NOT TARGET project_warnings)
+    add_library(project_warnings INTERFACE)
+    target_compile_options(project_warnings INTERFACE
+        $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
+            -Wall 
+            -funsigned-char
+            -Wno-error=narrowing
+        >
+        $<$<CXX_COMPILER_ID:MSVC>:/W4>
+    )
+endif()
 
 # ============================================================================
 # SMART BINARY OUTPUT DIRECTORY CONFIGURATION
