@@ -34,7 +34,7 @@ else()
 endif()
 
 # ============================================================================
-# THIRD-PARTY DEPENDENCIES (GLM & SFML 3.0) via FetchContent
+# THIRD-PARTY DEPENDENCIES via FetchContent
 # ============================================================================
 include(FetchContent)
 
@@ -60,6 +60,30 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(SFML)
 
+# 3. Fetch Dear ImGui
+FetchContent_Declare(
+    imgui
+    GIT_REPOSITORY https://github.com/ocornut/imgui.git
+    GIT_TAG        v1.91.9
+    GIT_SHALLOW    ON
+    SYSTEM
+    EXCLUDE_FROM_ALL
+)
+FetchContent_MakeAvailable(imgui)
+
+# 4. Fetch ImGui-SFML
+FetchContent_Declare(
+    imgui_sfml
+    GIT_REPOSITORY https://github.com/SFML/imgui-sfml.git
+    GIT_TAG        v3.0
+    GIT_SHALLOW    ON
+    SYSTEM
+    EXCLUDE_FROM_ALL
+)
+set(IMGUI_DIR ${imgui_SOURCE_DIR})
+set(IMGUI_SFML_FIND_SFML OFF)
+FetchContent_MakeAvailable(imgui_sfml)
+
 # ============================================================================
 # DEVELOPMENT TARGET CONFIGURATION
 # ============================================================================
@@ -67,28 +91,35 @@ FetchContent_MakeAvailable(SFML)
 file(GLOB_RECURSE SRC_FILES "src/*.cpp" "src/*.cc" "src/*.hpp" "src/*.hh")
 
 if(SRC_FILES)
-    add_executable(cube ${SRC_FILES})
+    add_executable(tu-maze_test 
+        ${SRC_FILES}
+        ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
+    )
     
-    # Link SFML 3.0 graphics modules and GLM
-    target_link_libraries(cube 
+    # Link SFML 3.0, ImGui and GLM
+    target_link_libraries(tu-maze_test
         PRIVATE 
             sfml-graphics
             sfml-window
             sfml-system
             glm::glm-header-only
+            ImGui-SFML::ImGui-SFML
             project_warnings
     )
     
-    # Include src/ directory as system target include path
-    target_include_directories(cube PRIVATE src)
+    # Includiamo src/ e le cartelle di imgui necessarie
+    target_include_directories(tu-maze_test PRIVATE 
+        src
+        ${imgui_SOURCE_DIR}
+        ${imgui_SOURCE_DIR}/backends
+    )
 
-    # Automatically copy resources/ directory to the binary directory post-build
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/resources")
         add_custom_command(
-            TARGET cube POST_BUILD
+            TARGET tu-maze_test POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_directory
                 "${CMAKE_CURRENT_SOURCE_DIR}/resources"
-                "$<TARGET_FILE_DIR:cube>/resources"
+                "$<TARGET_FILE_DIR:tu-maze_test>/resources"
             COMMENT "Copying assets and resources to build directory..."
         )
     endif()
@@ -105,8 +136,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/resources")
 endif()
 
 # Ensure the executable is also installed into the package . folder
-if(TARGET cube)
-    install(TARGETS cube DESTINATION .)
+if(TARGET tu-maze_test)
+    install(TARGETS tu-maze_test DESTINATION .)
 endif()
 
 # Configure CPack variables

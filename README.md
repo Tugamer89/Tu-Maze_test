@@ -4,6 +4,8 @@
 
 This specific test configuration focuses on implementing a manual, software-based perspective projection mechanism (`x' = x/z`, `y' = y/z`) to render a real-time, rotating 3D wireframe cube directly onto a 2D viewport. The core rendering engine features strict C++20 standard compliance, real-time animation clock tracking, and an automated multi-stage compilation framework.
 
+From stage 3 this project extends [FCG](https://github.com/Tugamer89/FCG) [Lab7](https://github.com/Tugamer89/FCG/tree/main/Lab7) with [SFML ImGui](https://github.com/SFML/imgui-sfml).
+
 ---
 
 ## Installation & Build Instructions
@@ -91,9 +93,9 @@ cd FCG_Stages/build/bin/Stage_01
 cd ../Stage_02
 ./cube
 
-# To run Stage 3 (when it will be available)
+# To run Stage 3
 cd ../Stage_03
-./cube
+./tu-maze_test resources/meshes/[Mesh Name].off
 
 # And so on...
 ```
@@ -110,6 +112,26 @@ cd ../Stage_03
 
 * **`Window Close Button (X)`**: Clicking the native OS window close button terminates the program safely.
 * *Note: No interactive in-window mouse controls are implemented in this stage.*
+
+### Stage 3 (v0.3.x)
+
+#### Keyboard Controls
+
+* **`Escape`**: Closes the application and shuts down the rendering loop immediately.
+* **`G`**: Use Gouraud shaders.
+* **`P`**: Use Phong shaders.
+* **`F`**: Use Flat shaders.
+* **`C`**: Use Normal shaders.
+* **`N`**: use normal camera view.
+* **`T`**: use telescopic camera view.
+* **`W`**: use wideangle camera view.
+
+#### Mouse Controls
+
+* **`Window Close Button (X)`**: Clicking the native OS window close button terminates the program safely.
+* **`Left Mouse Button` while dragging**: rotate the object.
+* **`Left Mouse Button` + `Left Control` while dragging**: zoom.
+* **`Left Mouse Button` + `Left Alt` while dragging**: mvoe the object.
 
 ## Credits & Asset Attributions
 

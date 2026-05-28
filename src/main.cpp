@@ -1,140 +1,190 @@
+#include <imgui-SFML.h>
+#include <imgui.h>
+#include <imgui_impl_opengl3.h>
+
 #include <SFML/Graphics.hpp>
-#include <array>
-#include <cmath>
-#include <glm/glm.hpp>
+#include <SFML/System/Clock.hpp>
+#include <SFML/Window.hpp>
+#include <cstdlib>
+#include <glm/ext/matrix_transform.hpp>
+#include <glm/mat4x4.hpp>
 #include <iostream>
-#include <optional>
-#include <vector>
 
-///////////////////////////////
-// CONSTANTS & CONFIGURATION //
-///////////////////////////////
+#ifndef GLAD_GL_IMPLEMENTATION
+#define GLAD_GL_IMPLEMENTATION
+#include "glad/gl.h"
+#endif
 
-constexpr int WINDOW_WIDTH = 800;
-constexpr int WINDOW_HEIGHT = 600;
+#include "include/camera.hh"
+#include "include/gpumesh.hh"
+#include "include/gui.hh"
+#include "include/hotshaders.hh"
+#include "include/lights.hh"
+#include "include/matrices.hh"
+#include "include/mesh.hh"
+#include "include/scene.hh"
+#include "include/setup.hh"
 
-constexpr float FOV_SCALE = 400.0f;      // Controls how large the projection appears
-constexpr float CAMERA_DISTANCE = 3.0f;  // Distance from the camera to the cube on the Z axis
+///////////////
+// Constants //
+///////////////
 
-constexpr float ROTATION_SPEED_Y = 1.2f;  // Radians per second
+const std::string gouraud_vert = "resources/shaders/shader_gouraud.vert";
+const std::string gouraud_frag = "resources/shaders/shader_gouraud.frag";
 
-/////////////////////////
-// AUXILIARY FUNCTIONS //
-/////////////////////////
+const std::string phong_vert = "resources/shaders/shader_phong.vert";
+const std::string phong_frag = "resources/shaders/shader_phong.frag";
 
-glm::vec3 animatePoint(const glm::vec3& point, float time) {
-    float angleY = time * ROTATION_SPEED_Y;
+const std::string flat_vert = "resources/shaders/shader_flat.vert";
+const std::string flat_frag = "resources/shaders/shader_flat.frag";
 
-    float s = std::sin(angleY);
-    float c = std::cos(angleY);
+const std::string normals_vert = "resources/shaders/shader_normals.vert";
+const std::string normals_frag = "resources/shaders/shader_normals.frag";
 
-    float rotY_x = point.x * c - point.z * s;
-    float rotY_z = point.x * s + point.z * c;
-    float rotY_y = point.y;
+////////////////////
+// SFML Callbacks //
+////////////////////
 
-    return glm::vec3(rotY_x, rotY_y, rotY_z);
+void handle(const sf::Event::KeyPressed& key, Shaders& shaders, Scene& scene, bool& running) {
+    switch (key.scancode) {
+        using enum sf::Keyboard::Scancode;
+
+        case G:
+            shaders.reload(gouraud_vert, gouraud_frag);
+            shaders.use();
+            scene.locations(shaders);
+            scene.update_all();
+            return;
+        case P:
+            shaders.reload(phong_vert, phong_frag);
+            shaders.use();
+            scene.locations(shaders);
+            scene.update_all();
+            return;
+        case F:
+            shaders.reload(flat_vert, flat_frag);
+            shaders.use();
+            scene.locations(shaders);
+            scene.update_all();
+            return;
+        case C:
+            shaders.reload(normals_vert, normals_frag);
+            shaders.use();
+            scene.locations(shaders);
+            scene.update_all();
+            return;
+        case N:
+            scene.camera.view_normal();
+            scene.update_all();
+            return;
+        case T:
+            scene.camera.view_tele();
+            scene.update_all();
+            return;
+        case W:
+            scene.camera.view_wide();
+            scene.update_all();
+            return;
+        case Escape:
+            running = false;
+            return;
+        default:
+            return;
+    }
 }
 
-sf::Vector2f projectPoint(const glm::vec3& point3D) {
-    float z = point3D.z + CAMERA_DISTANCE;
+void handle(const sf::Event::MouseMoved& mouse, Scene& scene) {
+    auto x = static_cast<float>(mouse.position.x);
+    auto y = static_cast<float>(mouse.position.y);
+    static float prev_x = 0.f;
+    static float prev_y = 0.f;
 
-    z = std::max(z, 0.0001f);
+    float dx = x - prev_x;
+    float dy = y - prev_y;
 
-    // Perspective projection formula
-    float projectedX = point3D.x / z;
-    float projectedY = point3D.y / z;
+    prev_x = x;
+    prev_y = y;
 
-    // Scale and center the coordinates to the window resolution
-    float screenX = (projectedX * FOV_SCALE) + (WINDOW_WIDTH / 2.0f);
-    float screenY = (projectedY * FOV_SCALE) + (WINDOW_HEIGHT / 2.0f);
-
-    return sf::Vector2f(screenX, screenY);
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+        scene.camera.drag(dx, dy);
+        scene.camera.projection();
+        scene.lights.position(scene.camera.inv_v);
+    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl)) {
+        scene.camera.zoom(dy);
+        scene.camera.projection();
+        scene.lights.position(scene.camera.inv_v);
+    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LAlt)) {
+        scene.camera.dolly(dy);
+        scene.camera.projection();
+        scene.lights.position(scene.camera.inv_v);
+    }
 }
 
 //////////
-// MAIN //
+// Main //
 //////////
 
-int main() {
-    // Initialize Window
-    sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
-    sf::Vector2i centerPosition((desktop.size.x - WINDOW_WIDTH) / 2,
-                                (desktop.size.y - WINDOW_HEIGHT) / 2);
+int main(int argc, char* argv[]) {
+    // mandatory command line argument: mesh file to open
+    std::string meshfile = "";
+    if (argc > 1)
+        meshfile = argv[1];
+    else {
+        std::cout << "Usage: " << argv[0] << " meshfile\n";
+        exit(1);
+    }
 
-    sf::RenderWindow window(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}),
-                            "SFML 3.0 - 3D Cube Projection");
-    window.setPosition(centerPosition);
-    window.setFramerateLimit(60);
+    //// Startup ////
 
-    std::cout << "[Template] Starting 3D Cube projection rendering loop!" << std::endl;
+    Setup setup;
+    sf::RenderWindow& window = *setup.window;
 
-    const std::vector<glm::vec3> cubeVertices = {
-        {-1.f, -1.f, -1.f}, {1.f, -1.f, -1.f}, {1.f, 1.f, -1.f}, {-1.f, 1.f, -1.f},  // Front Face
-        {-1.f, -1.f, 1.f},  {1.f, -1.f, 1.f},  {1.f, 1.f, 1.f},  {-1.f, 1.f, 1.f},   // Back Face
-    };
+    Gui gui(window);
 
-    const std::vector<std::pair<int, int>> cubeEdges = {
-        {0, 1}, {1, 2}, {2, 3}, {3, 0},  // Front face edges
-        {4, 5}, {5, 6}, {6, 7}, {7, 4},  // Back face edges
-        {0, 4}, {1, 5}, {2, 6}, {3, 7},  // Connecting depth edges
-    };
+    Shaders shaders(flat_vert, flat_frag);
+    shaders.use();
 
-    sf::Clock clock;
+    Scene scene(meshfile, shaders);
 
-    // Main Game Loop
-    while (window.isOpen()) {
-        // Event Handling
-        while (const std::optional<sf::Event> event = window.pollEvent()) {
-            if (event->is<sf::Event::Closed>()) {
-                window.close();
-            } else if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
-                if (keyPressed->scancode == sf::Keyboard::Scan::Escape) {
-                    window.close();
-                }
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+
+    glEnable(GL_DEPTH_TEST);
+
+    //// Main Loop ////
+
+    sf::Clock deltaClock;
+    bool running = true;
+
+    while (running) {
+        while (const std::optional event = window.pollEvent()) {
+            gui.process_event(window, *event);
+
+            if (event->is<sf::Event::Closed>())
+                running = false;
+            else if (const auto* resized = event->getIf<sf::Event::Resized>())
+                glViewport(0, 0, resized->size.x, resized->size.y);
+            else if (const auto* key_pressed = event->getIf<sf::Event::KeyPressed>();
+                     key_pressed && !gui.wants_capture_keyboard()) {
+                handle(*key_pressed, shaders, scene, running);
+            } else if (const auto* mouse = event->getIf<sf::Event::MouseMoved>();
+                       mouse && !gui.wants_capture_mouse()) {
+                handle(*mouse, scene);
             }
         }
 
-        // Update Logic
-        float currentTime = clock.getElapsedTime().asSeconds();
-        std::vector<sf::Vector2f> screenVertices;
-        screenVertices.reserve(cubeVertices.size());
+        gui.update(window, deltaClock.restart());
 
-        // Animate and Project each vertex
-        for (const auto& vertex : cubeVertices) {
-            glm::vec3 animatedPoint = animatePoint(vertex, currentTime);
-            sf::Vector2f projectedPoint = projectPoint(animatedPoint);
-            screenVertices.push_back(projectedPoint);
-        }
+        // --- OpenGl rendering ---
+        scene.draw();
 
-        // Render
-        window.clear(sf::Color(30, 30, 35));  // Dark gray background
-
-        for (const auto& [first, second] : cubeEdges) {
-            sf::Vector2f p1 = screenVertices[first];
-            sf::Vector2f p2 = screenVertices[second];
-
-            sf::Vector2f third1 = p1 + (p2 - p1) / 3.0f;
-            sf::Vector2f third2 = p1 + (p2 - p1) * 2.0f / 3.0f;
-
-            std::array<sf::Vertex, 6> lines = {
-                // First segment: 0 - 1/3 (Gradient from Cyan to Magenta)
-                sf::Vertex{p1, sf::Color::Cyan},
-                sf::Vertex{third1, sf::Color::Magenta},
-
-                // Second segment: 1/3 - 2/3 (Full Magenta)
-                sf::Vertex{third1, sf::Color::Magenta},
-                sf::Vertex{third2, sf::Color::Magenta},
-
-                // Third segment: 2/3 - 1 (Gradient from Magenta to Cyan)
-                sf::Vertex{third2, sf::Color::Magenta},
-                sf::Vertex{p2, sf::Color::Cyan},
-            };
-
-            window.draw(lines.data(), lines.size(), sf::PrimitiveType::Lines);
-        }
+        // --- ImGui rendering ---
+        gui.render(scene);
 
         window.display();
     }
+
+    window.close();
 
     return 0;
 }

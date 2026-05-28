@@ -17,3 +17,5 @@ FCG_Stages
 .DS_Store
 .vscode
 .sonarlint
+
+imgui.ini
