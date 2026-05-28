@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.2](https://github.com/Tugamer89/Tu-Maze_test/compare/v0.3.1...v0.3.2) (2026-05-28)
+
+
+### Bug Fixes
+
+* add imgui-src to paths ignored in CodeQL config ([4ab48f1](https://github.com/Tugamer89/Tu-Maze_test/commit/4ab48f1a5e5a718bb6d213d244694c4d48f3f53b))
+* add static linking options for MinGW builds ([e283840](https://github.com/Tugamer89/Tu-Maze_test/commit/e283840f5d5d3efb7fdbccbf7fdca431254bba80))
+
 ## [0.3.1](https://github.com/Tugamer89/Tu-Maze_test/compare/v0.3.0...v0.3.1) (2026-05-28)
 
 
