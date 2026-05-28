@@ -21,6 +21,11 @@ if(NOT TARGET project_warnings)
     )
 endif()
 
+# Static linking for releases
+if(MINGW)
+    add_link_options(-static -static-libgcc -static-libstdc++)
+endif()
+
 # ============================================================================
 # SMART BINARY OUTPUT DIRECTORY CONFIGURATION
 # ============================================================================
