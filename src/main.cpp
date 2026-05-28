@@ -1,13 +1,5 @@
-#include <imgui-SFML.h>
-#include <imgui.h>
-#include <imgui_impl_opengl3.h>
-
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Clock.hpp>
-#include <SFML/Window.hpp>
-#include <cstdlib>
-#include <glm/ext/matrix_transform.hpp>
-#include <glm/mat4x4.hpp>
 #include <iostream>
 
 #ifndef GLAD_GL_IMPLEMENTATION
