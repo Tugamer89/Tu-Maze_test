@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/Tugamer89/Tu-Maze_test/compare/v0.3.0...v0.3.1) (2026-05-28)
+
+
+### Bug Fixes
+
+* ensure project_warnings target is only created if not already defined ([09d1bb0](https://github.com/Tugamer89/Tu-Maze_test/commit/09d1bb0725d84e044d56157f0621184e6b297538))
+
 ## [0.3.0](https://github.com/Tugamer89/Tu-Maze_test/compare/v0.2.3...v0.3.0) (2026-05-28)
 
 
