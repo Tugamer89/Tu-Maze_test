@@ -1,5 +1,5 @@
-#include <SFML/Window.hpp>
 #include <SFML/System/Clock.hpp>
+#include <SFML/Window.hpp>
 #include <iostream>
 
 #ifndef GLAD_GL_IMPLEMENTATION
