@@ -1,7 +1,7 @@
 #ifndef SETUP_HH
 #define SETUP_HH
 
-#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 #include <iostream>
 
 #ifndef GLAD_GL_IMPLEMENTATION
@@ -11,7 +11,7 @@
 
 class Setup {
    public:
-    sf::RenderWindow* window;
+    sf::Window* window;
 
     Setup() {
         sf::ContextSettings settings;
@@ -29,7 +29,7 @@ class Setup {
         sf::Vector2i centerPosition((desktop.size.x - window_width) / 2,
                                     (desktop.size.y - window_height) / 2);
 
-        window = new sf::RenderWindow(sf::VideoMode({window_width, window_height}),
+        window = new sf::Window(sf::VideoMode({window_width, window_height}),
                                       "SFML + OpenGL + ImGui", sf::Style::Default,
                                       sf::State::Windowed, settings);
         window->setPosition(centerPosition);

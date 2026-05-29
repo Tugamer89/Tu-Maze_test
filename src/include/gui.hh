@@ -5,7 +5,7 @@
 #include <imgui.h>
 #include <imgui_impl_opengl3.h>
 
-#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Window.hpp>
 #include <SFML/Window/Event.hpp>
 #include <iostream>
 
@@ -13,8 +13,8 @@
 
 class Gui {
    public:
-    explicit Gui(sf::RenderWindow& window) {
-        if (!ImGui::SFML::Init(window, false)) {
+    explicit Gui(sf::Window& window) {
+        if (!ImGui::SFML::Init(window, sf::Vector2f(window.getSize()), false)) {
             std::cerr << "Error during ImGui-SFML initialization!" << std::endl;
             exit(1);
         }
@@ -28,7 +28,7 @@ class Gui {
     }
 
     // Forward SFML events to ImGui
-    void process_event(const sf::RenderWindow& window, const sf::Event& event) const {
+    void process_event(const sf::Window& window, const sf::Event& event) const {
         ImGui::SFML::ProcessEvent(window, event);
     }
 
@@ -39,9 +39,9 @@ class Gui {
     bool wants_capture_mouse() const { return ImGui::GetIO().WantCaptureMouse; }
 
     // Prepares a new frame for the GUI
-    void update(sf::RenderWindow& window, sf::Time dt) const {
+    void update(const sf::Window& window, sf::Time dt) const {
         ImGui_ImplOpenGL3_NewFrame();
-        ImGui::SFML::Update(window, dt);
+        ImGui::SFML::Update(sf::Mouse::getPosition(window), sf::Vector2f(window.getSize()), dt);
     }
 
     // Defines the interface and renders it

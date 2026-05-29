@@ -1,4 +1,4 @@
-#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 #include <SFML/System/Clock.hpp>
 #include <iostream>
 
@@ -129,7 +129,7 @@ int main(int argc, char* argv[]) {
     //// Startup ////
 
     Setup setup;
-    sf::RenderWindow& window = *setup.window;
+    sf::Window& window = *setup.window;
 
     Gui gui(window);
 
