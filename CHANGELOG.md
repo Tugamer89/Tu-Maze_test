@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.3](https://github.com/Tugamer89/Tu-Maze_test/compare/v0.3.2...v0.3.3) (2026-05-29)
+
+
+### Bug Fixes
+
+* replace sf::RenderWindow with sf::Window for consistency in GUI and setup classes ([4d1e7c0](https://github.com/Tugamer89/Tu-Maze_test/commit/4d1e7c059998362a2006730d04fcf8592a6b831b))
+
 ## [0.3.2](https://github.com/Tugamer89/Tu-Maze_test/compare/v0.3.1...v0.3.2) (2026-05-28)
 
 
