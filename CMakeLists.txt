@@ -114,7 +114,7 @@ if(SRC_FILES)
             project_warnings
     )
     
-    # Includiamo src/ e le cartelle di imgui necessarie
+    # Include src/ and imgui necessary folders
     target_include_directories(tu-maze_test PRIVATE 
         src
         ${imgui_SOURCE_DIR}
